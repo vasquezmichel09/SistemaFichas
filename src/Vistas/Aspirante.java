@@ -487,15 +487,14 @@ public class Aspirante extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        
-        
+
         int respuesta = JOptionPane.showConfirmDialog(null, "¿Esta seguro de registra al aspirante?, revise bien los datos", "Confirmación", JOptionPane.YES_NO_OPTION);
-        
+
         if (respuesta == JOptionPane.YES_OPTION) {
-           
-          registrarAspirante();
-          limpiar();        // TODO add your handling code here:      
-           
+
+            validarNotNullsAgregar(txt_nombre.getText(), txt_ape_pat.getText(), txt_curp.getText(), txt_correo1.getText(), txt_telefono.getText(), txtnombrecompletotutor.getText(), txttelefonotutor.getText(), txt_direccion.getText()
+                    + txt_cct.getText(), txt_escuelaprocedencia.getText());
+
         }
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
@@ -545,16 +544,18 @@ public class Aspirante extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_buscarActionPerformed
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
-        
-        
+
         int respuesta = JOptionPane.showConfirmDialog(null, "¿Esta seguro de actualizar el aspirante?", "Confirmación", JOptionPane.YES_NO_OPTION);
-        
+
         if (respuesta == JOptionPane.YES_OPTION) {
-           
-           ActualizarAspirante();        // TODO add your handling code here:      
-           
+
+            validarNotNullActualizar(txt_nombre.getText(), txt_ape_pat.getText(), txt_curp.getText(), txt_correo1.getText(), txt_telefono.getText(), txtnombrecompletotutor.getText(), txttelefonotutor.getText(), txt_direccion.getText()
+                    + txt_cct.getText(), txt_escuelaprocedencia.getText());
+
+           // TODO add your handling code here:      
+
         }
-       
+
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
     private void txt_correo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_correo1ActionPerformed
@@ -573,6 +574,7 @@ public class Aspirante extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_matricula1ActionPerformed
 
+    //metodo para registrar el aspirante validando que no se repitan matriculas
     private void registrarAspirante() {
 
         aspirante asp = new aspirante();
@@ -601,19 +603,19 @@ public class Aspirante extends javax.swing.JFrame {
                 asp.setNombre_tutor(txtnombrecompletotutor.getText().trim());
                 asp.setTelefono_tutor(txttelefonotutor.getText());
                 asp.setDireccion(txt_direccion.getText().trim());
-                asp.setCCT(txt_cct.getText().trim());                
+                asp.setCCT(txt_cct.getText().trim());
                 String tiposecu;
-                tiposecu = combotiposecundaria.getSelectedItem().toString() ;
+                tiposecu = combotiposecundaria.getSelectedItem().toString();
                 asp.setTipo_secundaria(tiposecu);
                 asp.setNombre_secundaria(txt_escuelaprocedencia.getText().trim());
                 asp.setNombre_secundaria(txt_escuelaprocedencia.getText().trim());
-                String especialidad;               
+                String especialidad;
                 especialidad = comboespecialidad.getSelectedItem().toString();
                 System.out.println(especialidad);
                 asp.setClave_especialidad(especialidad);
                 String folioexamen;
                 folioexamen = comboexamen.getSelectedItem().toString();
-                asp.setFolio_examen(folioexamen);                
+                asp.setFolio_examen(folioexamen);
 
                 //doccumentacion
                 int entregado = 0;
@@ -671,7 +673,7 @@ public class Aspirante extends javax.swing.JFrame {
                 }
 
                 if (ctrlaspirante.Guadar(asp, exa, doc, matricula, doc2)) {
-                     JOptionPane.showMessageDialog(null, "Aspirante guardado correctamente");
+                    JOptionPane.showMessageDialog(null, "Aspirante guardado correctamente");
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al guardar aspirante");
@@ -685,6 +687,7 @@ public class Aspirante extends javax.swing.JFrame {
 
     }
 
+    //metodo para actualizar estudiante ingresando la matricula
     private void ActualizarAspirante() {
         aspirante asp = new aspirante();
         examen exa = new examen();
@@ -706,26 +709,23 @@ public class Aspirante extends javax.swing.JFrame {
                 String discapacidad;
                 discapacidad = combodiscapacidad.getSelectedItem().toString();
                 asp.setTipo_discapacidad(discapacidad);
-                System.out.println(discapacidad);
                 String tiposecu;
-                tiposecu = combotiposecundaria.getSelectedItem().toString() ;
+                tiposecu = combotiposecundaria.getSelectedItem().toString();
                 asp.setTipo_secundaria(tiposecu);
                 asp.setDireccion(txt_direccion.getText().trim());
                 asp.setCCT(txt_cct.getText().trim());
-                String especialidad;               
+                String especialidad;
                 especialidad = comboespecialidad.getSelectedItem().toString();
-                
+
                 asp.setNombre_secundaria(txt_escuelaprocedencia.getText().trim());
                 asp.setNombre_tutor(txtnombrecompletotutor.getText().trim());
                 asp.setTelefono_tutor(txttelefonotutor.getText());
-                
 
                 //doccumentacion
                 int entregado = 0;
-                
-                
+
                 doc.setMatricula(txt_matricula1.getText());
-                
+
                 if (checkacta.isSelected()) {
                     entregado = 1;
                     doc.setActa(entregado);
@@ -778,8 +778,6 @@ public class Aspirante extends javax.swing.JFrame {
 
                 String cadena = txt_matricula1.getText();
 
-                
-
                 if (ctrlaspirante.Actualizar(asp, exa, doc)) {
                     JOptionPane.showMessageDialog(null, "Aspirante actualizado correctamente");
                 } else {
@@ -787,13 +785,14 @@ public class Aspirante extends javax.swing.JFrame {
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "El aspirante ya existe");
-                
+
             }
 
         }
 
     }
 
+    //metodo para buscar aspirante ingresando la matricula
     private void BuscarAspirante(String matricula) {
         try {
             Connection con = Conexion.conectar();
@@ -811,11 +810,11 @@ public class Aspirante extends javax.swing.JFrame {
                 txt_correo1.setText(rs.getString("correo"));
                 txt_telefono.setText(rs.getString("num_telefono"));
                 txt_correo1.setText(rs.getString("correo"));
-                
+
                 txt_direccion.setText(rs.getString("direccion"));
                 txt_escuelaprocedencia.setText(rs.getString("nombre_secundaria"));
                 txt_cct.setText(rs.getString("CCT"));
-                
+
                 txtnombrecompletotutor.setText(rs.getString("nombre_tutor"));
                 txttelefonotutor.setText(rs.getString("telefono_tutor"));
 
@@ -829,9 +828,8 @@ public class Aspirante extends javax.swing.JFrame {
 
                 // boolean clave = rs.getBoolean("entregado");
                 //JOptionPane.showMessageDialog(null, clave);
-           
-            }else{
-                 JOptionPane.showMessageDialog(null, "REVISE QUE TODOS LOS DATOS SEAN CORRECTOS");
+            } else {
+                JOptionPane.showMessageDialog(null, "ingrese una matricula existente");
             }
 
         } catch (SQLException e) {
@@ -840,10 +838,10 @@ public class Aspirante extends javax.swing.JFrame {
         }
 
     }
-    
-    public void rellenarcomboespecialidades(String matricula){
-        
-        
+
+    //rellenar combo de especialidades disponibles
+    public void rellenarcomboespecialidades(String matricula) {
+
         String sql = "select * from plan_estudios";
         Statement st;
 
@@ -861,10 +859,10 @@ public class Aspirante extends javax.swing.JFrame {
             System.out.println("Error al consultar" + e);
         }
     }
-    
-        public void rellenarcomboexamenes(String folio){
-        
-        
+
+    //rellenar combo de examenes
+    public void rellenarcomboexamenes(String folio) {
+
         String sql = "select * from examen";
         Statement st;
 
@@ -882,10 +880,10 @@ public class Aspirante extends javax.swing.JFrame {
             System.out.println("Error al consultar" + e);
         }
     }
-        
-        public void rellenarcombodiscapacidad(String discapacidad){
-        
-        
+
+    //rellenar combo de tipo de discapacidad 
+    public void rellenarcombodiscapacidad(String discapacidad) {
+
         String sql = "select * from discapacidad";
         Statement st;
 
@@ -902,19 +900,17 @@ public class Aspirante extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println("Error al consultar" + e);
         }
-    } 
-    
-    public void rellenarcombotipodeesculea(){
-        
+    }
 
-                combotiposecundaria.addItem("publica");
-                combotiposecundaria.addItem("privada");
-                
+    //rellenar el combo de tipo de escuela
+    public void rellenarcombotipodeesculea() {
 
-        
-    } 
-        
+        combotiposecundaria.addItem("publica");
+        combotiposecundaria.addItem("privada");
 
+    }
+
+    //metodo para limpiar
     public void limpiar() {
         txt_ape_mat.setText("");
         txt_ape_pat.setText("");
@@ -922,10 +918,10 @@ public class Aspirante extends javax.swing.JFrame {
         txt_correo1.setText("");
         txt_curp.setText("");
         txt_direccion.setText("");
-        txt_escuelaprocedencia.setText("");      
+        txt_escuelaprocedencia.setText("");
         txt_matricula1.setText("");
         txt_nombre.setText("");
-        txt_telefono.setText("");        
+        txt_telefono.setText("");
         txtnombrecompletotutor.setText("");
         txttelefonotutor.setText("");
         checkConstancia.setSelected(false);
@@ -938,6 +934,67 @@ public class Aspirante extends javax.swing.JFrame {
 
     }
 
+    //Metodo para validar el formulario
+    public boolean validarNombre(String nombre) {
+        return nombre != null && !nombre.isEmpty();
+    }
+
+    public boolean validarApellidoPaterno(String apePat) {
+        return apePat != null && !apePat.isEmpty();
+    }
+
+    public boolean validarCurp(String curp) {
+        return curp != null && !curp.isEmpty();
+    }
+
+    public boolean validarCorreo(String correo) {
+        return correo != null && !correo.isEmpty();
+    }
+
+    public boolean validarNumerodeTelefono(String telefono) {
+        return telefono != null && !telefono.isEmpty();
+    }
+
+    public boolean validarNombreTutor(String nombreTutor) {
+        return nombreTutor != null && !nombreTutor.isEmpty();
+    }
+
+    public boolean validarDireccion(String direccion) {
+        return direccion != null && !direccion.isEmpty();
+    }
+
+    public boolean validarCCT(String cct) {
+        return cct != null && !cct.isEmpty();
+    }
+
+    public boolean validarNombreSecundaria(String nombreSecundaria) {
+        return nombreSecundaria != null && !nombreSecundaria.isEmpty();
+    }
+
+    public void validarNotNullsAgregar(String nombre, String apePat, String curp, String correo, String telefono, String nombreTutor, String direccion, String cct, String nombreSecundaria) {
+
+        if (validarNombre(nombre) && validarApellidoPaterno(apePat) && validarCurp(curp) && validarCorreo(correo)
+                && validarNumerodeTelefono(telefono) && validarNombreTutor(nombreTutor) && validarDireccion(direccion) && validarDireccion(direccion) && validarCCT(cct) && validarNombreSecundaria(nombreSecundaria)) {
+            registrarAspirante();
+            limpiar();
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Ingrese todos los datos obligatorios, por favor");
+        }
+
+    }
+
+    public void validarNotNullActualizar(String nombre, String apePat, String curp, String correo, String telefono, String nombreTutor, String direccion, String cct, String nombreSecundaria) {
+
+        if (validarNombre(nombre) && validarApellidoPaterno(apePat) && validarCurp(curp) && validarCorreo(correo)
+                && validarNumerodeTelefono(telefono) && validarNombreTutor(nombreTutor) && validarDireccion(direccion) && validarDireccion(direccion) && validarCCT(cct) && validarNombreSecundaria(nombreSecundaria)) {
+            ActualizarAspirante();
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Ingrese todos los datos obligatorios, por favor");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton LIMPIAR;

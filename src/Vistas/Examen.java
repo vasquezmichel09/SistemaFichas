@@ -7,6 +7,8 @@ package Vistas;
 
 import controlador.ctrlAspirante;
 import controlador.ctrlExamen;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import modelo.aspirante;
@@ -45,8 +47,9 @@ public class Examen extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         txthora = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
         chooserfechaexamen = new com.toedter.calendar.JDateChooser();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -66,11 +69,19 @@ public class Examen extends javax.swing.JFrame {
         jLabel22.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         jLabel22.setText("Grupo del examen:");
 
-        jButton1.setFont(new java.awt.Font("Tw Cen MT", 1, 14)); // NOI18N
-        jButton1.setText("AGREGAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregar.setFont(new java.awt.Font("Tw Cen MT", 1, 14)); // NOI18N
+        btnAgregar.setText("AGREGAR");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnLimpiar.setFont(new java.awt.Font("Tw Cen MT", 1, 14)); // NOI18N
+        btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
             }
         });
 
@@ -79,33 +90,35 @@ public class Examen extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(72, 72, 72)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txt_folioExamen, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel21)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chooserfechaexamen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(label)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txthora, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnAgregar)
+                                    .addComponent(jLabel22))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel13)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txt_folioExamen, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel21)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(chooserfechaexamen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel22)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtgrupo))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(label)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txthora, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(jButton1)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(33, 33, 33)
+                                        .addComponent(btnLimpiar)))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -130,7 +143,9 @@ public class Examen extends javax.swing.JFrame {
                     .addComponent(jLabel22)
                     .addComponent(txtgrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnLimpiar))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
@@ -148,12 +163,25 @@ public class Examen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        registrarAspirante();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
 
-    
-     private void registrarAspirante() {
+        java.util.Date fechachooser = chooserfechaexamen.getDate();
+        if (fechachooser != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Puedes cambiar el formato
+            String fechaComoString = dateFormat.format(fechachooser);
+          validarFormularioExamen(txt_folioExamen.getText(), txthora.getText(), txtgrupo.getText(), fechaComoString);
+        }else{
+             JOptionPane.showMessageDialog(null, "Ingrese todos los datos obligatorios, por favor");
+        }
+        
+
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        Limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void registrarExamen() {
         aspirante asp = new aspirante();
         examen exa = new examen();
         documentacion doc = new documentacion();
@@ -164,7 +192,6 @@ public class Examen extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Llene los campos");
         } else {
             if (!ctrlaspirante.existeAspirante(txt_folioExamen.getText().trim())) {
-               
 
                 exa.setFolio_examen(txt_folioExamen.getText());
                 int dia, mes, año;
@@ -177,26 +204,61 @@ public class Examen extends javax.swing.JFrame {
                 exa.setHora(txthora.getText());
                 exa.setGrupo(txtgrupo.getText());
 
-              
-
-               
                 if (ctrlaspirante.Guadar(exa)) {
-                    JOptionPane.showMessageDialog(null, "Registro guardado");
+                    JOptionPane.showMessageDialog(null, "Registro  de examen guardado");
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al guardar");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "el aspirante ya existe");
+                JOptionPane.showMessageDialog(null, "El registro de examen ya existe");
             }
 
         }
 
-       
+    }
+    
+    
+    public void Limpiar(){
+    txt_folioExamen.setText("");
+    txtgrupo.setText("");
+    txthora.setText("");
+    chooserfechaexamen.setDate(null);
+    }
+    
+    
+    //Validacion de que los campos del formulario esten llenos y no quede ninguno vacio
+
+    public boolean validarfolioExamen(String foliiodeExamen) {
+        return foliiodeExamen != null && !foliiodeExamen.isEmpty();
+    }
+
+    public boolean validarHoraExamen(String horaExamen) {
+        return horaExamen != null && !horaExamen.isEmpty();
+    }
+
+    public boolean validarGrupo(String validargrupo) {
+        return validargrupo != null && !validargrupo.isEmpty();
+    }
+
+    public boolean validarFecha(String fechaExamen) {
+        return fechaExamen != null;
+    }
+
+    public void validarFormularioExamen(String foliiodeExamen, String horaExamen, String validargrupo, String fechaExamen) {
+
+        if (validarfolioExamen(foliiodeExamen) && validarHoraExamen(horaExamen) && validarGrupo(validargrupo) && validarFecha(fechaExamen)) {
+            registrarExamen();
+            Limpiar();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese todos los datos obligatorios, por favor");
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnLimpiar;
     private com.toedter.calendar.JDateChooser chooserfechaexamen;
-    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel21;
