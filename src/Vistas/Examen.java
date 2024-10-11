@@ -5,9 +5,15 @@
  */
 package Vistas;
 
+import Conexion.Conexion;
 import controlador.ctrlAspirante;
 import controlador.ctrlExamen;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
@@ -38,38 +44,46 @@ public class Examen extends javax.swing.JFrame {
     private void initComponents() {
 
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jPanel1 = new javax.swing.JPanel();
+        PanelFondoExamen = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
-        label = new javax.swing.JLabel();
-        txtgrupo = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         txt_folioExamen = new javax.swing.JTextField();
-        jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        txthora = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JButton();
+        txtgrupo = new javax.swing.JTextField();
         chooserfechaexamen = new com.toedter.calendar.JDateChooser();
+        jLabel21 = new javax.swing.JLabel();
+        txthora = new javax.swing.JTextField();
+        label = new javax.swing.JLabel();
+        PanelBotones = new javax.swing.JPanel();
+        btnAgregar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
+        btn_buscar = new javax.swing.JButton();
+        btnLimpiar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Datos del examen");
 
         jLabel23.setFont(new java.awt.Font("Segoe UI Symbol", 1, 24)); // NOI18N
-        jLabel23.setText("INGRESE LOS DATOS DEL EXAMEN");
         jLabel23.setMaximumSize(new java.awt.Dimension(200, 25));
 
-        label.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        label.setText("Hora del examen:");
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del examen"));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        jLabel13.setText("Folio del examen:");
-
-        jLabel21.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        jLabel21.setText("Fecha del examen:");
+        jLabel13.setText("Folio:");
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        jLabel22.setText("Grupo del examen:");
+        jLabel22.setText("Grupo:");
+
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jLabel21.setText("Fecha:");
+
+        label.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        label.setText("Hora:");
 
         btnAgregar.setFont(new java.awt.Font("Tw Cen MT", 1, 14)); // NOI18N
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/guadar.png"))); // NOI18N
         btnAgregar.setText("AGREGAR");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,7 +91,17 @@ public class Examen extends javax.swing.JFrame {
             }
         });
 
+        btnActualizar.setFont(new java.awt.Font("Tw Cen MT", 1, 14)); // NOI18N
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/perfil.png"))); // NOI18N
+        btnActualizar.setText("ACTUALIZAR");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
         btnLimpiar.setFont(new java.awt.Font("Tw Cen MT", 1, 14)); // NOI18N
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/borrar.png"))); // NOI18N
         btnLimpiar.setText("LIMPIAR");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,79 +109,140 @@ public class Examen extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+        btn_buscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/lupa.png"))); // NOI18N
+        btn_buscar.setText("BUSCAR");
+        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelBotonesLayout = new javax.swing.GroupLayout(PanelBotones);
+        PanelBotones.setLayout(PanelBotonesLayout);
+        PanelBotonesLayout.setHorizontalGroup(
+            PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBotonesLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+        PanelBotonesLayout.setVerticalGroup(
+            PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBotonesLayout.createSequentialGroup()
+                .addGroup(PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_buscar)
+                    .addComponent(btnAgregar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActualizar)
+                    .addComponent(btnLimpiar))
+                .addGap(0, 13, Short.MAX_VALUE))
+        );
+
+        btnLimpiar1.setFont(new java.awt.Font("Tw Cen MT", 1, 10)); // NOI18N
+        btnLimpiar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/izquierda.png"))); // NOI18N
+        btnLimpiar1.setText("REGRESAR");
+        btnLimpiar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiar1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnLimpiar1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txt_folioExamen, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel21)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(chooserfechaexamen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(chooserfechaexamen, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel22)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtgrupo))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(label)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txthora, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnAgregar)
-                                    .addComponent(jLabel22))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtgrupo))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(33, 33, 33)
-                                        .addComponent(btnLimpiar)))))))
+                                .addComponent(txthora, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(PanelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(btnLimpiar1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(txt_folioExamen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtgrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel21)
+                        .addComponent(chooserfechaexamen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(label)
+                        .addComponent(txthora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(PanelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+
+        javax.swing.GroupLayout PanelFondoExamenLayout = new javax.swing.GroupLayout(PanelFondoExamen);
+        PanelFondoExamen.setLayout(PanelFondoExamenLayout);
+        PanelFondoExamenLayout.setHorizontalGroup(
+            PanelFondoExamenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFondoExamenLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(PanelFondoExamenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelFondoExamenLayout.createSequentialGroup()
+                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        PanelFondoExamenLayout.setVerticalGroup(
+            PanelFondoExamenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFondoExamenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(txt_folioExamen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel21)
-                    .addComponent(chooserfechaexamen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label)
-                    .addComponent(txthora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
-                    .addComponent(txtgrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
-                    .addComponent(btnLimpiar))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(PanelFondoExamen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelFondoExamen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -167,19 +252,43 @@ public class Examen extends javax.swing.JFrame {
 
         java.util.Date fechachooser = chooserfechaexamen.getDate();
         if (fechachooser != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Puedes cambiar el formato
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String fechaComoString = dateFormat.format(fechachooser);
-          validarFormularioExamen(txt_folioExamen.getText(), txthora.getText(), txtgrupo.getText(), fechaComoString);
-        }else{
-             JOptionPane.showMessageDialog(null, "Ingrese todos los datos obligatorios, por favor");
+            validarFormularioExamenAgregar(txt_folioExamen.getText(), txthora.getText(), txtgrupo.getText(), fechaComoString);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese todos los datos obligatorios, por favor");
         }
-        
+
 
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         Limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+             java.util.Date fechachooser = chooserfechaexamen.getDate();
+        if (fechachooser != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaComoString = dateFormat.format(fechachooser);
+            validarFormularioExamenActualizar(txt_folioExamen.getText(), txthora.getText(), txtgrupo.getText(), fechaComoString);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese todos los datos obligatorios, por favor");
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
+
+        String folio = txt_folioExamen.getText();
+        BuscarExamen(folio);
+
+    }//GEN-LAST:event_btn_buscarActionPerformed
+
+    private void btnLimpiar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiar1ActionPerformed
+        dispose();
+        CatalogoExamenes cata = new CatalogoExamenes();
+        cata.setVisible(true);
+    }//GEN-LAST:event_btnLimpiar1ActionPerformed
 
     private void registrarExamen() {
         aspirante asp = new aspirante();
@@ -194,20 +303,16 @@ public class Examen extends javax.swing.JFrame {
             if (!ctrlaspirante.existeAspirante(txt_folioExamen.getText().trim())) {
 
                 exa.setFolio_examen(txt_folioExamen.getText());
-                int dia, mes, año;
-                dia = chooserfechaexamen.getCalendar().get(Calendar.DAY_OF_MONTH);
-                mes = chooserfechaexamen.getCalendar().get(Calendar.MONTH);
-                año = chooserfechaexamen.getCalendar().get(Calendar.YEAR);
-                String fecha;
-                fecha = año + "/" + mes + "/" + dia;
-                exa.setFecha(fecha);
+                java.util.Date fechaSeleccionada = chooserfechaexamen.getDate();
+                java.sql.Date fechasql = new java.sql.Date(fechaSeleccionada.getTime());
+                exa.setFecha(fechasql);
                 exa.setHora(txthora.getText());
                 exa.setGrupo(txtgrupo.getText());
 
                 if (ctrlaspirante.Guadar(exa)) {
                     JOptionPane.showMessageDialog(null, "Registro  de examen guardado");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al guardar");
+                    JOptionPane.showMessageDialog(null, "Error al guardar Examen");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "El registro de examen ya existe");
@@ -216,18 +321,72 @@ public class Examen extends javax.swing.JFrame {
         }
 
     }
-    
-    
-    public void Limpiar(){
-    txt_folioExamen.setText("");
-    txtgrupo.setText("");
-    txthora.setText("");
-    chooserfechaexamen.setDate(null);
-    }
-    
-    
-    //Validacion de que los campos del formulario esten llenos y no quede ninguno vacio
 
+    //metodo para buscar examen ingresando el folio
+    private void BuscarExamen(String folio) {
+        try {
+            Connection con = Conexion.conectar();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM examen WHERE folio_examen = '" + folio + "'");
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+
+                txt_folioExamen.setText(rs.getString("folio_Examen"));
+                txtgrupo.setText(rs.getString("grupo"));
+                txthora.setText(rs.getString("HORA"));
+                java.sql.Date fecha = rs.getDate("fecha");
+                chooserfechaexamen.setDate(fecha);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "ingrese un folio existente");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+
+        }
+
+    }
+
+    //metodo para actualizar examen ingresando el folio
+    private void ActualizarExamen() {
+        examen exa = new examen();
+
+        ctrlExamen ctrlexa = new ctrlExamen();
+
+        if (txt_folioExamen.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Llene los campos");
+        } else {
+            if (ctrlexa.existeExamen(txt_folioExamen.getText().trim())) {
+                exa.setFolio_examen(txt_folioExamen.getText().trim());
+                java.util.Date fechaSeleccionada = chooserfechaexamen.getDate();
+                java.sql.Date fechasql = new java.sql.Date(fechaSeleccionada.getTime());
+                exa.setFecha(fechasql);
+                exa.setGrupo(txtgrupo.getText().trim());
+                exa.setHora(txthora.getText().trim());
+
+                if (ctrlexa.ActualizarExamen(exa)) {
+                    JOptionPane.showMessageDialog(null, "examen actualizado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "REVISE QUE TODOS LOS DATOS SEAN CORRECTOS");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "El Examen ya existe");
+
+            }
+
+        }
+    }
+
+    public void Limpiar() {
+        txt_folioExamen.setText("");
+        txtgrupo.setText("");
+        txthora.setText("");
+        chooserfechaexamen.setDate(null);
+    }
+
+    //Validacion de que los campos del formulario esten llenos y no quede ninguno vacio
     public boolean validarfolioExamen(String foliiodeExamen) {
         return foliiodeExamen != null && !foliiodeExamen.isEmpty();
     }
@@ -244,7 +403,7 @@ public class Examen extends javax.swing.JFrame {
         return fechaExamen != null;
     }
 
-    public void validarFormularioExamen(String foliiodeExamen, String horaExamen, String validargrupo, String fechaExamen) {
+    public void validarFormularioExamenAgregar(String foliiodeExamen, String horaExamen, String validargrupo, String fechaExamen) {
 
         if (validarfolioExamen(foliiodeExamen) && validarHoraExamen(horaExamen) && validarGrupo(validargrupo) && validarFecha(fechaExamen)) {
             registrarExamen();
@@ -255,16 +414,32 @@ public class Examen extends javax.swing.JFrame {
 
     }
 
+    public void validarFormularioExamenActualizar(String foliiodeExamen, String horaExamen, String validargrupo, String fechaExamen) {
+
+        if (validarfolioExamen(foliiodeExamen) && validarHoraExamen(horaExamen) && validarGrupo(validargrupo) && validarFecha(fechaExamen)) {
+            ActualizarExamen();
+            Limpiar();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese todos los datos obligatorios, por favor");
+        }
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelBotones;
+    private javax.swing.JPanel PanelFondoExamen;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnLimpiar1;
+    private javax.swing.JButton btn_buscar;
     private com.toedter.calendar.JDateChooser chooserfechaexamen;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel label;
     private javax.swing.JTextField txt_folioExamen;
     private javax.swing.JTextField txtgrupo;

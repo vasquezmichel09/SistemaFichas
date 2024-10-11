@@ -6,19 +6,21 @@ import java.sql.Date;
 public class examen {
     
     private String folio_examen;
-    private String fecha;
+    private Date fecha;
     private String hora;
     private String grupo;
 
     public examen() {
     }
 
-    public examen(String folio_examen, String fecha, String hora, String grupo) {
+    public examen(String folio_examen, Date fecha, String hora, String grupo) {
         this.folio_examen = folio_examen;
         this.fecha = fecha;
         this.hora = hora;
         this.grupo = grupo;
     }
+
+
 
     public String getFolio_examen() {
         return folio_examen;
@@ -28,13 +30,14 @@ public class examen {
         this.folio_examen = folio_examen;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+
 
     public String getHora() {
         return hora;

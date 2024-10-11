@@ -5,6 +5,16 @@
  */
 package Vistas;
 
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
 /**
  *
  * @author 52951
@@ -16,6 +26,9 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        this.setExtendedState(this.MAXIMIZED_BOTH);
+        Hotkeys();
+
     }
 
     /**
@@ -31,13 +44,15 @@ public class Menu extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
         jLabel2 = new javax.swing.JLabel();
+        PanelMenu = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
+        Aspirante = new javax.swing.JMenu();
         NuevoAspirante = new javax.swing.JMenuItem();
         NuevoAspirante1 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -52,49 +67,32 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu4.setText("jMenu4");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jMenuItem1.setText("jMenuItem1");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/logogrande.png"))); // NOI18N
+        jRadioButtonMenuItem1.setSelected(true);
+        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
+
+        jRadioButtonMenuItem2.setSelected(true);
+        jRadioButtonMenuItem2.setText("jRadioButtonMenuItem2");
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
-        jLabel2.setText("Sistema de administración de fichas de admisión");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de administracion de fichas");
+        setMaximumSize(new java.awt.Dimension(550, 550));
+        setName("FrameMenu"); // NOI18N
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        PanelMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        PanelMenu.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 679, -1));
 
         jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
+        PanelMenu.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 679, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(41, 41, 41)
-                                .addComponent(jLabel2)))))
-                .addContainerGap(32, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
-        );
+        getContentPane().add(PanelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 390));
 
-        jMenu2.setText("Registro");
+        Aspirante.setText("Registro");
 
         NuevoAspirante.setText("Nuevo Aspirante");
         NuevoAspirante.addActionListener(new java.awt.event.ActionListener() {
@@ -102,7 +100,7 @@ public class Menu extends javax.swing.JFrame {
                 NuevoAspiranteActionPerformed(evt);
             }
         });
-        jMenu2.add(NuevoAspirante);
+        Aspirante.add(NuevoAspirante);
 
         NuevoAspirante1.setText("Registrar examen");
         NuevoAspirante1.addActionListener(new java.awt.event.ActionListener() {
@@ -110,9 +108,9 @@ public class Menu extends javax.swing.JFrame {
                 NuevoAspirante1ActionPerformed(evt);
             }
         });
-        jMenu2.add(NuevoAspirante1);
+        Aspirante.add(NuevoAspirante1);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(Aspirante);
 
         jMenu5.setText("Consulta");
 
@@ -136,19 +134,6 @@ public class Menu extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -169,13 +154,67 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_ConsultaOfertaAcademicaActionPerformed
 
     private void NuevoAspirante1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoAspirante1ActionPerformed
-        Examen exa = new Examen();
+        CatalogoExamenes exa = new CatalogoExamenes();
         exa.setVisible(true);
+
     }//GEN-LAST:event_NuevoAspirante1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    //hotkeys
+    public void Hotkeys() {
+
+        //Abrir La vista de registro de aspirante
+        Action abrirResgistrodeAspirante = new AbstractAction("Aspirante") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Aspirante asp = new Aspirante();
+                asp.setVisible(true);
+
+            }
+
+        };
+
+        KeyStroke keyStroke = KeyStroke.getKeyStroke("control S");
+        InputMap inputMap = PanelMenu.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap ActionMap = PanelMenu.getActionMap();
+        inputMap.put(keyStroke, "Aspirante");
+        ActionMap.put("Aspirante", abrirResgistrodeAspirante);
+
+        //Abrir La vista de registro de examenes de admision
+        Action abrirRegistrarExamen = new AbstractAction("Examen") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Examen exa = new Examen();
+                exa.setVisible(true);
+
+            }
+
+        };
+
+        KeyStroke keyStroke2 = KeyStroke.getKeyStroke("control A");
+        InputMap inputMap2 = PanelMenu.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap ActionMap2 = PanelMenu.getActionMap();
+        inputMap2.put(keyStroke2, "Examen");
+        ActionMap2.put("Examen", abrirRegistrarExamen);
+
+        //Abrir La vista de oferta academica
+        Action abrirOfertaAcademica = new AbstractAction("OfertaAcademica") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ConsultaOfertaAcademica consuloferta = new ConsultaOfertaAcademica();
+                consuloferta.setVisible(true);
+
+            }
+
+        };
+
+        KeyStroke keyStroke3 = KeyStroke.getKeyStroke("control D");
+        InputMap inputMap3 = PanelMenu.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap ActionMap3 = PanelMenu.getActionMap();
+        inputMap3.put(keyStroke3, "OfertaAcademica");
+        ActionMap3.put("OfertaAcademica", abrirOfertaAcademica);
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -204,26 +243,30 @@ public class Menu extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Menu().setVisible(true);
+
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Aspirante;
     private javax.swing.JMenuItem ConsultaAspirante;
     private javax.swing.JMenuItem ConsultaOfertaAcademica;
     private javax.swing.JMenuItem NuevoAspirante;
     private javax.swing.JMenuItem NuevoAspirante1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel PanelMenu;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
     // End of variables declaration//GEN-END:variables
 }

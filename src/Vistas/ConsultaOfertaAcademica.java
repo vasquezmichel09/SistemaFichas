@@ -48,12 +48,12 @@ public class ConsultaOfertaAcademica extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableOferta = new javax.swing.JTable();
-        actualizartabla = new javax.swing.JButton();
         actualizarcarrera = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/guadar.png"))); // NOI18N
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,6 +61,7 @@ public class ConsultaOfertaAcademica extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/borrar (1).png"))); // NOI18N
         jButton2.setText("Eliminar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,13 +81,6 @@ public class ConsultaOfertaAcademica extends javax.swing.JFrame {
             }
         ));
         jScrollPane2.setViewportView(jTableOferta);
-
-        actualizartabla.setText("actualizar tabla");
-        actualizartabla.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actualizartablaActionPerformed(evt);
-            }
-        });
 
         actualizarcarrera.setText("actualizar carrera");
         actualizarcarrera.addActionListener(new java.awt.event.ActionListener() {
@@ -109,9 +103,7 @@ public class ConsultaOfertaAcademica extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(actualizarcarrera)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(actualizartabla)
-                .addGap(35, 35, 35))
+                .addGap(35, 146, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,7 +114,6 @@ public class ConsultaOfertaAcademica extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(btnAgregar)
-                    .addComponent(actualizartabla)
                     .addComponent(actualizarcarrera))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -183,10 +174,6 @@ public class ConsultaOfertaAcademica extends javax.swing.JFrame {
         Oferta_academica ofertaacademica = new Oferta_academica();
         ofertaacademica.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void actualizartablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizartablaActionPerformed
-       cargarCategoria(); // TODO add your handling code here:
-    }//GEN-LAST:event_actualizartablaActionPerformed
 
     private void actualizarcarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarcarreraActionPerformed
     actualizar();        // TODO add your handling code here:
@@ -300,7 +287,6 @@ public class ConsultaOfertaAcademica extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton actualizarcarrera;
-    private javax.swing.JButton actualizartabla;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
